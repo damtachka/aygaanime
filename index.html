@@ -3,54 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Cases - Открывай кейсы с аниме-карточками</title>
+    <title>Anime Gacha System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #e83e8c;
-            --secondary-color: #6f42c1;
-            --dark-bg: #1a1a2e;
-            --darker-bg: #16213e;
-            --text-color: #f8f9fa;
-            --accent-color: #ff2d75;
+            --primary-color: #3a7ca5;
+            --secondary-color: #2f6690;
+            --accent-color: #d9dcd6;
+            --text-color: #16425b;
+            --background: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #d3d3d3;
+            --rarity-common: #6c757d;
+            --rarity-rare: #007bff;
+            --rarity-epic: #6f42c1;
+            --rarity-legendary: #ffc107;
             --japan-red: #c91f37;
-            --card-bg: #0f3460;
             --online-green: #28a745;
-            --offline-gray: #6c757d;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
-        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
+        }
+
+        body {
+            background-color: var(--background);
             color: var(--text-color);
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(201, 31, 55, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(111, 66, 193, 0.1) 0%, transparent 20%),
-                linear-gradient(to bottom, var(--dark-bg), var(--darker-bg));
+            background-image: url('https://i.imgur.com/ZYwD5yP.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
         }
-        
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(248, 249, 250, 0.95);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
         /* Навигация */
         .navbar {
-            background-color: rgba(22, 33, 62, 0.9);
-            backdrop-filter: blur(10px);
+            background-color: var(--card-bg);
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--secondary-color);
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
@@ -58,30 +68,32 @@
             text-decoration: none;
             display: flex;
             align-items: center;
+            font-family: 'Genshin Impact', sans-serif;
         }
-        
+
         .logo i {
             margin-right: 10px;
             color: var(--japan-red);
         }
-        
+
         .nav-links {
             display: flex;
             gap: 25px;
         }
-        
+
         .nav-links a {
             color: var(--text-color);
             text-decoration: none;
             font-size: 1.1rem;
-            transition: color 0.3s;
+            transition: all 0.3s;
             position: relative;
+            font-weight: 500;
         }
-        
+
         .nav-links a:hover {
             color: var(--primary-color);
         }
-        
+
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -92,17 +104,17 @@
             background-color: var(--primary-color);
             transition: width 0.3s;
         }
-        
+
         .nav-links a:hover::after {
             width: 100%;
         }
-        
+
         .user-menu {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
+
         .user-avatar {
             width: 40px;
             height: 40px;
@@ -110,47 +122,46 @@
             object-fit: cover;
             border: 2px solid var(--primary-color);
             cursor: pointer;
+            transition: transform 0.3s;
         }
-        
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
         .balance {
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--secondary-color);
+            background-color: var(--accent-color);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 8px 15px;
             display: inline-flex;
             align-items: center;
-            box-shadow: 0 0 15px rgba(111, 66, 193, 0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .balance span {
             margin-right: 8px;
             font-size: 1rem;
+            font-weight: 500;
         }
-        
+
         .stars {
-            color: gold;
+            color: var(--rarity-legendary);
             font-size: 1.2rem;
-            text-shadow: 0 0 5px gold;
+            font-weight: bold;
         }
-        
+
         /* Основной контент */
-        .container {
-            max-width: 1400px;
-            margin: 80px auto 0;
-            padding: 20px;
-        }
-        
         .main-title {
-            color: var(--japan-red);
+            color: var(--primary-color);
             font-size: 2.5rem;
             margin-bottom: 30px;
             text-align: center;
-            text-shadow: 0 0 10px rgba(201, 31, 55, 0.5);
             position: relative;
-            display: inline-block;
-            width: 100%;
+            font-family: 'Genshin Impact', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
-        
+
         .main-title::after {
             content: "";
             position: absolute;
@@ -159,108 +170,85 @@
             transform: translateX(-50%);
             width: 200px;
             height: 3px;
-            background: linear-gradient(90deg, var(--japan-red), var(--secondary-color), var(--japan-red));
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
             border-radius: 3px;
         }
-        
+
         /* Блок с кейсами */
         .cases-section {
             margin-bottom: 50px;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
-        
+
         .section-title {
             font-size: 1.8rem;
             margin-bottom: 20px;
             color: var(--primary-color);
             display: flex;
             align-items: center;
+            font-family: 'Genshin Impact', sans-serif;
         }
-        
+
         .section-title i {
             margin-right: 10px;
         }
-        
+
         .cases-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
         }
-        
+
         .case {
-            background: linear-gradient(135deg, var(--darker-bg), #0f3460);
+            background: var(--card-bg);
             border-radius: 10px;
-            padding: 20px;
-            width: 280px;
+            padding: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid var(--secondary-color);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
         }
-        
+
         .case:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(111, 66, 193, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             border-color: var(--primary-color);
         }
-        
-        .case::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                transparent, transparent, transparent,
-                rgba(232, 62, 140, 0.1), transparent, transparent, transparent
-            );
-            transform: rotate(30deg);
-            transition: all 0.7s ease;
-        }
-        
-        .case:hover::before {
-            animation: shine 1.5s infinite;
-        }
-        
-        @keyframes shine {
-            0% {
-                left: -50%;
-            }
-            100% {
-                left: 150%;
-            }
-        }
-        
+
         .case-image {
             width: 100%;
             height: 150px;
             object-fit: contain;
             margin-bottom: 15px;
-            filter: drop-shadow(0 0 10px rgba(232, 62, 140, 0.5));
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
         }
-        
+
         .case-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 10px;
             color: var(--primary-color);
+            font-weight: 600;
+            text-align: center;
         }
-        
+
         .case-price {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            color: gold;
+            font-size: 1.1rem;
+            color: var(--rarity-legendary);
             margin-bottom: 10px;
+            font-weight: 500;
         }
-        
+
         .buy-btn {
-            background: linear-gradient(135deg, var(--japan-red), #a31621);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border: none;
             border-radius: 5px;
             color: white;
@@ -269,17 +257,18 @@
             transition: all 0.3s;
             width: 100%;
             font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .buy-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(201, 31, 55, 0.4);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
-        
+
         .buy-btn.stars {
-            background: linear-gradient(135deg, #6f42c1, #4a2d8f);
+            background: linear-gradient(135deg, var(--rarity-legendary), #fd7e14);
         }
-        
+
         /* Колесо фортуны */
         .wheel-container {
             position: fixed;
@@ -297,22 +286,23 @@
             pointer-events: none;
             transition: opacity 0.5s ease;
         }
-        
+
         .wheel-container.active {
             opacity: 1;
             pointer-events: all;
         }
-        
+
         .wheel {
             width: 300px;
             height: 500px;
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
-            border: 3px solid var(--japan-red);
-            box-shadow: 0 0 30px rgba(201, 31, 55, 0.7);
+            border-radius: 15px;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 30px rgba(58, 124, 165, 0.7);
+            background-color: var(--card-bg);
         }
-        
+
         .wheel-items {
             position: absolute;
             top: 0;
@@ -320,24 +310,24 @@
             width: 100%;
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
         }
-        
+
         .wheel-item {
             width: 100%;
             height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(to right, #1a1a2e, #16213e, #1a1a2e);
-            border-bottom: 1px solid var(--secondary-color);
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
         }
-        
+
         .wheel-item img {
             max-width: 80%;
             max-height: 80%;
             object-fit: contain;
-            filter: drop-shadow(0 0 5px rgba(232, 62, 140, 0.7));
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
         }
-        
+
         .wheel-center {
             position: absolute;
             top: 50%;
@@ -345,95 +335,97 @@
             transform: translate(-50%, -50%);
             width: 100%;
             height: 4px;
-            background-color: var(--accent-color);
+            background-color: var(--japan-red);
             z-index: 10;
-            box-shadow: 0 0 10px var(--accent-color);
+            box-shadow: 0 0 10px var(--japan-red);
         }
-        
+
         /* Результат */
         .result {
             margin-top: 30px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: var(--card-bg);
             padding: 20px;
             border-radius: 10px;
             max-width: 80%;
             display: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .result.active {
             display: block;
             animation: fadeIn 0.5s ease;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .result-card {
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            background: var(--card-bg);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid var(--primary-color);
-            box-shadow: 0 0 20px rgba(232, 62, 140, 0.3);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .result-image {
             width: 100px;
             height: 100px;
             object-fit: cover;
             border-radius: 5px;
             margin-right: 20px;
-            border: 2px solid var(--secondary-color);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .result-info {
             text-align: left;
             flex: 1;
         }
-        
+
         .result-name {
             font-size: 1.5rem;
             color: var(--primary-color);
             margin-bottom: 5px;
+            font-weight: 600;
         }
-        
+
         .result-rarity {
             display: inline-block;
             padding: 3px 10px;
             border-radius: 15px;
             font-size: 0.9rem;
             margin-bottom: 10px;
+            font-weight: 500;
+            color: white;
         }
-        
+
         .common {
-            background-color: #6c757d;
-            color: white;
+            background-color: var(--rarity-common);
         }
-        
+
         .rare {
-            background-color: #007bff;
-            color: white;
+            background-color: var(--rarity-rare);
         }
-        
+
         .epic {
-            background-color: #6f42c1;
-            color: white;
+            background-color: var(--rarity-epic);
         }
-        
+
         .legendary {
-            background: linear-gradient(135deg, #ffc107, #fd7e14);
-            color: black;
+            background: linear-gradient(135deg, var(--rarity-legendary), #fd7e14);
+            color: var(--text-color);
         }
-        
+
         .result-actions {
             display: flex;
             gap: 10px;
             margin-top: 15px;
         }
-        
+
         .action-btn {
             padding: 8px 15px;
             border: none;
@@ -444,22 +436,23 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .action-btn i {
             font-size: 1rem;
         }
-        
+
         .share-btn {
             background: linear-gradient(135deg, #28a745, #1e7e34);
             color: white;
         }
-        
+
         .video-btn {
             background: linear-gradient(135deg, #dc3545, #a71d2a);
             color: white;
         }
-        
+
         .close-wheel {
             margin-top: 30px;
             padding: 10px 25px;
@@ -472,150 +465,237 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(201, 31, 55, 0.4);
         }
-        
+
         .close-wheel:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(201, 31, 55, 0.6);
         }
-        
+
         /* Боковая панель */
         .sidebar {
             position: fixed;
             top: 80px;
-            right: -300px;
-            width: 300px;
+            right: -350px;
+            width: 350px;
             height: calc(100vh - 80px);
-            background-color: rgba(22, 33, 62, 0.95);
-            backdrop-filter: blur(10px);
-            border-left: 1px solid var(--secondary-color);
+            background-color: var(--card-bg);
+            border-left: 1px solid var(--border-color);
             transition: right 0.3s ease;
             z-index: 999;
             padding: 20px;
             overflow-y: auto;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
         }
-        
+
         .sidebar.active {
             right: 0;
         }
-        
+
         .sidebar-section {
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
-        
+
         .sidebar-title {
             font-size: 1.3rem;
             margin-bottom: 15px;
             color: var(--primary-color);
-            border-bottom: 1px solid var(--secondary-color);
-            padding-bottom: 5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
         }
-        
+
+        .sidebar-title i {
+            margin-right: 10px;
+        }
+
+        /* Уровень и прогресс */
+        .level-container {
+            margin-bottom: 20px;
+            background-color: var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .level-bar {
+            height: 10px;
+            background-color: var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .level-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .current-level {
+            font-weight: 600;
+        }
+
+        /* Ежедневные награды */
+        .daily-rewards {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .reward-day {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: var(--accent-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .reward-day.claimed {
+            background: linear-gradient(135deg, var(--rarity-legendary), #fd7e14);
+            color: white;
+            border-color: transparent;
+        }
+
+        .reward-day.current {
+            border: 2px solid var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .reward-day.future {
+            opacity: 0.6;
+        }
+
+        .reward-day i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
         /* Промокоды */
         .promo-input {
             display: flex;
             margin-bottom: 15px;
         }
-        
+
         .promo-input input {
             flex: 1;
             padding: 10px;
-            border: 1px solid var(--secondary-color);
+            border: 1px solid var(--border-color);
             border-radius: 5px 0 0 5px;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: var(--accent-color);
             color: var(--text-color);
             outline: none;
         }
-        
+
         .promo-input button {
             padding: 10px 15px;
-            background: linear-gradient(135deg, var(--primary-color), #c2185b);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border: none;
             border-radius: 0 5px 5px 0;
             color: white;
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .promo-input button:hover {
-            background: linear-gradient(135deg, #d81b60, #ad1457);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
         }
-        
+
         /* Покупка звезд */
         .star-packs {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
+            margin-bottom: 15px;
         }
-        
+
         .star-pack {
-            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            background: var(--accent-color);
             border-radius: 5px;
             padding: 10px;
-            border: 1px solid var(--secondary-color);
+            border: 1px solid var(--border-color);
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
         }
-        
+
         .star-pack:hover {
             border-color: var(--primary-color);
             transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(111, 66, 193, 0.3);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .star-pack.selected {
             border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(232, 62, 140, 0.5);
+            box-shadow: 0 0 10px rgba(58, 124, 165, 0.3);
+            background: linear-gradient(135deg, rgba(58, 124, 165, 0.1), rgba(47, 102, 144, 0.1));
         }
-        
+
         .star-pack .stars {
             font-size: 1.2rem;
             margin-bottom: 5px;
+            color: var(--rarity-legendary);
+            font-weight: bold;
         }
-        
+
         .star-pack .price {
             font-weight: bold;
-            color: gold;
+            color: var(--text-color);
         }
-        
+
         .buy-stars-btn {
             width: 100%;
             padding: 10px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #28a745, #1e7e34);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border: none;
             border-radius: 5px;
             color: white;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .buy-stars-btn:hover {
-            background: linear-gradient(135deg, #218838, #1c7430);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             transform: translateY(-2px);
         }
-        
+
         /* Топ пользователей */
         .top-users {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        
+
         .top-user {
             display: flex;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: var(--accent-color);
             padding: 10px;
             border-radius: 5px;
             transition: all 0.3s;
+            border: 1px solid var(--border-color);
         }
-        
+
         .top-user:hover {
-            background-color: rgba(111, 66, 193, 0.2);
+            background-color: rgba(58, 124, 165, 0.1);
+            border-color: var(--primary-color);
         }
-        
+
         .top-user-avatar {
             width: 40px;
             height: 40px;
@@ -624,46 +704,49 @@
             margin-right: 10px;
             border: 2px solid var(--primary-color);
         }
-        
+
         .top-user-info {
             flex: 1;
         }
-        
+
         .top-user-name {
             font-weight: bold;
+            color: var(--text-color);
         }
-        
+
         .top-user-stars {
-            color: gold;
+            color: var(--rarity-legendary);
             font-size: 0.9rem;
+            font-weight: 500;
         }
-        
+
         .top-user-position {
             font-weight: bold;
             color: var(--primary-color);
             margin-left: 10px;
+            font-size: 1.1rem;
         }
-        
+
         /* Онлайн открытия */
         .online-openings {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        
+
         .opening {
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: var(--accent-color);
             border-radius: 5px;
             padding: 10px;
-            border: 1px solid var(--secondary-color);
+            border: 1px solid var(--border-color);
         }
-        
+
         .opening-user {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .opening-user-avatar {
             width: 30px;
             height: 30px;
@@ -672,41 +755,46 @@
             margin-right: 10px;
             border: 1px solid var(--primary-color);
         }
-        
+
         .opening-user-name {
             font-size: 0.9rem;
+            font-weight: 500;
         }
-        
+
         .opening-case {
             font-size: 0.8rem;
-            color: #adb5bd;
+            color: var(--text-color);
             margin-bottom: 5px;
+            opacity: 0.8;
         }
-        
+
         .opening-item {
             display: flex;
             align-items: center;
         }
-        
+
         .opening-item-image {
             width: 40px;
             height: 40px;
             object-fit: contain;
             margin-right: 10px;
-            filter: drop-shadow(0 0 3px rgba(232, 62, 140, 0.5));
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
         }
-        
+
         .opening-item-name {
             font-size: 0.9rem;
             flex: 1;
+            font-weight: 500;
         }
-        
+
         .opening-item-rarity {
             font-size: 0.7rem;
             padding: 2px 8px;
             border-radius: 10px;
+            font-weight: 500;
+            color: white;
         }
-        
+
         /* Лента видео */
         .videos-container {
             display: grid;
@@ -714,29 +802,30 @@
             gap: 20px;
             margin-top: 20px;
         }
-        
+
         .video-card {
-            background: linear-gradient(135deg, var(--darker-bg), #0f3460);
+            background: var(--card-bg);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid var(--secondary-color);
+            border: 1px solid var(--border-color);
             transition: all 0.3s;
             cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
         }
-        
+
         .video-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(111, 66, 193, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             border-color: var(--primary-color);
         }
-        
+
         .video-thumbnail {
             width: 100%;
             height: 150px;
             object-fit: cover;
             position: relative;
         }
-        
+
         .video-thumbnail::after {
             content: '';
             position: absolute;
@@ -746,7 +835,7 @@
             height: 100%;
             background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
         }
-        
+
         .video-play-icon {
             position: absolute;
             top: 50%;
@@ -755,59 +844,148 @@
             color: white;
             font-size: 2rem;
             z-index: 1;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
-        
+
         .video-info {
             padding: 10px;
         }
-        
+
         .video-title {
             font-size: 1rem;
             margin-bottom: 5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-weight: 500;
         }
-        
+
         .video-user {
             display: flex;
             align-items: center;
             font-size: 0.8rem;
-            color: #adb5bd;
+            color: var(--text-color);
+            opacity: 0.8;
         }
-        
+
         .video-user-avatar {
             width: 20px;
             height: 20px;
             border-radius: 50%;
             object-fit: cover;
             margin-right: 5px;
+            border: 1px solid var(--border-color);
         }
-        
+
+        /* Колесо удачи */
+        .fortune-wheel-container {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .wheel-of-fortune {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .fortune-wheel {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ff7676, #f54ea2, #ff7676,
+                #f54ea2, #ff7676, #f54ea2,
+                #ff7676, #f54ea2, #ff7676
+            );
+            position: relative;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transform: rotate(0deg);
+        }
+
+        .fortune-wheel::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .fortune-pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid var(--japan-red);
+            z-index: 10;
+        }
+
+        .spin-fortune-wheel {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(58, 124, 165, 0.4);
+        }
+
+        .spin-fortune-wheel:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(58, 124, 165, 0.6);
+        }
+
+        .spin-fortune-wheel:disabled {
+            background: var(--border-color);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         /* Настройки */
         .settings-section {
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: var(--card-bg);
             border-radius: 10px;
             padding: 20px;
             margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
-        
+
         .setting-option {
             margin-bottom: 15px;
         }
-        
+
         .setting-label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 600;
+            color: var(--text-color);
         }
-        
+
         .theme-selector {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
-        
+
         .theme-option {
             width: 40px;
             height: 40px;
@@ -815,36 +993,37 @@
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .theme-option:hover {
             transform: scale(1.1);
         }
-        
+
         .theme-option.selected {
             border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(232, 62, 140, 0.5);
+            box-shadow: 0 0 10px rgba(58, 124, 165, 0.5);
         }
-        
+
+        .theme-light {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .theme-genshin {
+            background: linear-gradient(135deg, #e8f4f8, #c1e4f6);
+        }
+
+        .theme-sakura {
+            background: linear-gradient(135deg, #fff0f6, #ffdeeb);
+        }
+
         .theme-dark {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, #343a40, #212529);
         }
-        
-        .theme-purple {
-            background: linear-gradient(135deg, #2d1b4e, #4a148c);
-        }
-        
-        .theme-red {
-            background: linear-gradient(135deg, #4e1b1b, #8c1414);
-        }
-        
-        .theme-blue {
-            background: linear-gradient(135deg, #1b2b4e, #14478c);
-        }
-        
+
         .save-settings {
             padding: 10px 20px;
-            background: linear-gradient(135deg, var(--primary-color), #c2185b);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border: none;
             border-radius: 5px;
             color: white;
@@ -852,76 +1031,176 @@
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .save-settings:hover {
-            background: linear-gradient(135deg, #d81b60, #ad1457);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             transform: translateY(-2px);
         }
-        
-        /* Адаптивность */
-        @media (max-width: 1200px) {
-            .container {
-                margin-right: 20px;
-            }
-            
-            .sidebar {
-                width: 250px;
-            }
+
+        /* Коллекция карт */
+        .collection-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
-        
+
+        .collection-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .collection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .collection-card-image {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+        }
+
+        .collection-card-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .collection-card-rarity {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 500;
+            color: white;
+            display: inline-block;
+        }
+
+        .collection-card-count {
+            font-size: 0.8rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        /* Адаптивность */
         @media (max-width: 992px) {
             .sidebar {
-                display: none;
+                width: 300px;
             }
             
-            .container {
-                margin-right: auto;
+            .cases-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
-        
+
         @media (max-width: 768px) {
-            .cases-container {
-                gap: 20px;
-            }
-            
-            .case {
-                width: 45%;
-            }
-            
-            .wheel {
-                width: 250px;
-                height: 400px;
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
             }
             
             .nav-links {
-                display: none;
+                gap: 15px;
+            }
+            
+            .sidebar {
+                width: 280px;
+                top: 120px;
+                height: calc(100vh - 120px);
+            }
+            
+            .cases-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .collection-container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
         }
-        
+
         @media (max-width: 576px) {
-            .case {
-                width: 100%;
+            .main-title {
+                font-size: 2rem;
             }
             
-            .wheel {
-                width: 200px;
-                height: 350px;
+            .section-title {
+                font-size: 1.5rem;
             }
             
-            .result-card {
-                flex-direction: column;
-                text-align: center;
+            .star-packs {
+                grid-template-columns: 1fr;
             }
             
-            .result-image {
-                margin-right: 0;
-                margin-bottom: 15px;
+            .daily-rewards {
+                flex-wrap: wrap;
             }
             
-            .result-actions {
-                justify-content: center;
+            .reward-day {
+                flex: 0 0 calc(33.333% - 7px);
             }
+        }
+
+        /* Анимации для редких карт */
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(255, 193, 7, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.9); }
+            100% { box-shadow: 0 0 5px rgba(255, 193, 7, 0.5); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .legendary-card {
+            animation: glow 2s infinite, float 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .legendary-card::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle at center, rgba(255, 193, 7, 0.3), transparent 70%);
+            border-radius: 10px;
+            z-index: -1;
+        }
+
+        /* Эффект для эпических карт */
+        .epic-card {
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .epic-card::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: radial-gradient(circle at center, rgba(111, 66, 193, 0.2), transparent 70%);
+            border-radius: 8px;
+            z-index: -1;
         }
     </style>
 </head>
@@ -929,20 +1208,21 @@
     <!-- Навигация -->
     <nav class="navbar">
         <a href="#" class="logo">
-            <i class="fas fa-star"></i>
-            AnimeCases
+            <i class="fas fa-dragon"></i>
+            Anime Gacha
         </a>
         
         <div class="nav-links">
-            <a href="#cases">Кейсы</a>
-            <a href="#videos">Видео</a>
-            <a href="#top">Топ игроков</a>
-            <a href="#earn">Заработок</a>
+            <a href="#gacha"><i class="fas fa-box-open"></i> Гача</a>
+            <a href="#collection"><i class="fas fa-book"></i> Коллекция</a>
+            <a href="#fortune"><i class="fas fa-star"></i> Колесо удачи</a>
+            <a href="#top"><i class="fas fa-trophy"></i> Топ игроков</a>
+            <a href="#events"><i class="fas fa-calendar-alt"></i> События</a>
         </div>
         
         <div class="user-menu">
             <div class="balance">
-                <span id="balance">5000</span>
+                <span id="balance">12,450</span>
                 <span class="stars">★</span>
             </div>
             <img src="https://i.imgur.com/JQlE6iN.png" alt="Аватар" class="user-avatar" id="userAvatar">
@@ -952,7 +1232,55 @@
     <!-- Боковая панель -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-section">
-            <h3 class="sidebar-title">Промокод</h3>
+            <h3 class="sidebar-title"><i class="fas fa-user"></i> Профиль</h3>
+            <div class="level-container">
+                <div class="level-bar">
+                    <div class="level-progress" style="width: 78%;"></div>
+                </div>
+                <div class="level-info">
+                    <span class="current-level">Уровень 24</span>
+                    <span class="exp">780/1000 XP</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3 class="sidebar-title"><i class="fas fa-gift"></i> Ежедневные награды</h3>
+            <div class="daily-rewards">
+                <div class="reward-day claimed">
+                    <i class="fas fa-star"></i>
+                    <span>100 ★</span>
+                </div>
+                <div class="reward-day claimed">
+                    <i class="fas fa-box-open"></i>
+                    <span>Обычный кейс</span>
+                </div>
+                <div class="reward-day current">
+                    <i class="fas fa-gem"></i>
+                    <span>200 ★</span>
+                </div>
+                <div class="reward-day future">
+                    <i class="fas fa-star"></i>
+                    <span>300 ★</span>
+                </div>
+                <div class="reward-day future">
+                    <i class="fas fa-box-open"></i>
+                    <span>Редкий кейс</span>
+                </div>
+                <div class="reward-day future">
+                    <i class="fas fa-gem"></i>
+                    <span>500 ★</span>
+                </div>
+                <div class="reward-day future">
+                    <i class="fas fa-crown"></i>
+                    <span>Эпический кейс</span>
+                </div>
+            </div>
+            <button class="buy-btn" style="width: 100%;">Получить награду</button>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3 class="sidebar-title"><i class="fas fa-tag"></i> Промокод</h3>
             <div class="promo-input">
                 <input type="text" placeholder="Введите промокод" id="promoCode">
                 <button id="applyPromo">Применить</button>
@@ -960,22 +1288,22 @@
         </div>
         
         <div class="sidebar-section">
-            <h3 class="sidebar-title">Купить звезды</h3>
+            <h3 class="sidebar-title"><i class="fas fa-coins"></i> Купить звезды</h3>
             <div class="star-packs">
                 <div class="star-pack" data-stars="1000" data-price="99">
-                    <div class="stars">1000 ★</div>
+                    <div class="stars">1,000 ★</div>
                     <div class="price">99 ₽</div>
                 </div>
                 <div class="star-pack" data-stars="2500" data-price="199">
-                    <div class="stars">2500 ★</div>
+                    <div class="stars">2,500 ★</div>
                     <div class="price">199 ₽</div>
                 </div>
                 <div class="star-pack" data-stars="5000" data-price="399">
-                    <div class="stars">5000 ★</div>
+                    <div class="stars">5,000 ★</div>
                     <div class="price">399 ₽</div>
                 </div>
                 <div class="star-pack" data-stars="10000" data-price="799">
-                    <div class="stars">10000 ★</div>
+                    <div class="stars">10,000 ★</div>
                     <div class="price">799 ₽</div>
                 </div>
             </div>
@@ -983,13 +1311,157 @@
         </div>
         
         <div class="sidebar-section">
-            <h3 class="sidebar-title">Топ игроков</h3>
+            <h3 class="sidebar-title"><i class="fas fa-bolt"></i> Онлайн открытия</h3>
+            <div class="online-openings" id="onlineOpenings">
+                <!-- Заполняется скриптом -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Основной контент -->
+    <div class="container">
+        <!-- Гача кейсы -->
+        <section id="gacha">
+            <h1 class="main-title">Аниме Гача Система</h1>
+            
+            <div class="cases-section">
+                <h2 class="section-title"><i class="fas fa-fire"></i> Рекомендованные кейсы</h2>
+                <div class="cases-container">
+                    <div class="case" data-price="1000" data-case="1">
+                        <img src="https://i.imgur.com/JQlE6iN.png" alt="Обычный кейс" class="case-image">
+                        <h3 class="case-name">Обычный кейс</h3>
+                        <div class="case-price">
+                            <span>1,000</span>
+                            <span class="stars">★</span>
+                        </div>
+                        <button class="buy-btn stars">Открыть</button>
+                    </div>
+                    
+                    <div class="case" data-price="2500" data-case="2">
+                        <img src="https://i.imgur.com/8mKbWqQ.png" alt="Редкий кейс" class="case-image">
+                        <h3 class="case-name">Редкий кейс</h3>
+                        <div class="case-price">
+                            <span>2,500</span>
+                            <span class="stars">★</span>
+                        </div>
+                        <button class="buy-btn stars">Открыть</button>
+                    </div>
+                    
+                    <div class="case" data-price="5000" data-case="3">
+                        <img src="https://i.imgur.com/vVX3GQz.png" alt="Эпический кейс" class="case-image">
+                        <h3 class="case-name">Эпический кейс</h3>
+                        <div class="case-price">
+                            <span>5,000</span>
+                            <span class="stars">★</span>
+                        </div>
+                        <button class="buy-btn stars">Открыть</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cases-section">
+                <h2 class="section-title"><i class="fas fa-gem"></i> Особые кейсы</h2>
+                <div class="cases-container">
+                    <div class="case" data-price="299" data-case="4">
+                        <img src="https://i.imgur.com/LjVqQ0W.png" alt="Легендарный кейс" class="case-image">
+                        <h3 class="case-name">Легендарный кейс</h3>
+                        <div class="case-price">
+                            <span>299</span>
+                            <span>₽</span>
+                        </div>
+                        <button class="buy-btn">Купить</button>
+                    </div>
+                    
+                    <div class="case" data-price="499" data-case="5">
+                        <img src="https://i.imgur.com/2QzJzQa.png" alt="Эксклюзивный кейс" class="case-image">
+                        <h3 class="case-name">Эксклюзивный кейс</h3>
+                        <div class="case-price">
+                            <span>499</span>
+                            <span>₽</span>
+                        </div>
+                        <button class="buy-btn">Купить</button>
+                    </div>
+                    
+                    <div class="case" data-price="999" data-case="6">
+                        <img src="https://i.imgur.com/3KtQ9ZL.png" alt="Премиум кейс" class="case-image">
+                        <h3 class="case-name">Премиум кейс</h3>
+                        <div class="case-price">
+                            <span>999</span>
+                            <span>₽</span>
+                        </div>
+                        <button class="buy-btn">Купить</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cases-section">
+                <h2 class="section-title"><i class="fas fa-calendar-star"></i> Событийные кейсы</h2>
+                <div class="cases-container">
+                    <div class="case" data-price="1500" data-case="7">
+                        <img src="https://i.imgur.com/5QzJzQa.png" alt="Наруто кейс" class="case-image">
+                        <h3 class="case-name">Наруто кейс</h3>
+                        <div class="case-price">
+                            <span>1,500</span>
+                            <span class="stars">★</span>
+                        </div>
+                        <button class="buy-btn stars">Открыть</button>
+                    </div>
+                    
+                    <div class="case" data-price="2000" data-case="8">
+                        <img src="https://i.imgur.com/2QzJzQa.png" alt="Hunter x Hunter" class="case-image">
+                        <h3 class="case-name">Hunter x Hunter</h3>
+                        <div class="case-price">
+                            <span>2,000</span>
+                            <span class="stars">★</span>
+                        </div>
+                        <button class="buy-btn stars">Открыть</button>
+                    </div>
+                    
+                    <div class="case" data-price="3500" data-case="9">
+                        <img src="https://i.imgur.com/6KtQ9ZL.png" alt="One Piece" class="case-image">
+                        <h3 class="case-name">One Piece</h3>
+                        <div class="case-price">
+                            <span>3,500</span>
+                            <span class="stars">★</span>
+                        </div>
+                        <button class="buy-btn stars">Открыть</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Коллекция карт -->
+        <section id="collection" class="cases-section">
+            <h2 class="section-title"><i class="fas fa-book"></i> Моя коллекция</h2>
+            <div class="collection-container" id="collectionContainer">
+                <!-- Заполняется скриптом -->
+            </div>
+        </section>
+        
+        <!-- Колесо удачи -->
+        <section id="fortune">
+            <div class="fortune-wheel-container">
+                <h2 class="section-title"><i class="fas fa-star"></i> Колесо удачи</h2>
+                <p>Крутите колесо раз в день, чтобы получить бонусные звезды!</p>
+                
+                <div class="wheel-of-fortune">
+                    <div class="fortune-wheel" id="fortuneWheel">
+                        <div class="fortune-pointer"></div>
+                    </div>
+                    <button class="spin-fortune-wheel" id="spinFortuneWheel">Крутить за 50 ★</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Топ игроков -->
+        <section id="top" class="cases-section">
+            <h2 class="section-title"><i class="fas fa-trophy"></i> Топ игроков</h2>
             <div class="top-users">
                 <div class="top-user">
                     <img src="https://i.imgur.com/5QzJzQa.png" alt="Аватар" class="top-user-avatar">
                     <div class="top-user-info">
                         <div class="top-user-name">Наруто</div>
-                        <div class="top-user-stars">15000 ★</div>
+                        <div class="top-user-stars">45,200 ★</div>
                     </div>
                     <div class="top-user-position">1</div>
                 </div>
@@ -997,7 +1469,7 @@
                     <img src="https://i.imgur.com/8KtQ9ZL.png" alt="Аватар" class="top-user-avatar">
                     <div class="top-user-info">
                         <div class="top-user-name">Саске</div>
-                        <div class="top-user-stars">12000 ★</div>
+                        <div class="top-user-stars">38,750 ★</div>
                     </div>
                     <div class="top-user-position">2</div>
                 </div>
@@ -1005,7 +1477,7 @@
                     <img src="https://i.imgur.com/3qJQY9Q.png" alt="Аватар" class="top-user-avatar">
                     <div class="top-user-info">
                         <div class="top-user-name">Сакура</div>
-                        <div class="top-user-stars">9500 ★</div>
+                        <div class="top-user-stars">32,100 ★</div>
                     </div>
                     <div class="top-user-position">3</div>
                 </div>
@@ -1013,7 +1485,7 @@
                     <img src="https://i.imgur.com/7JQY9ZL.png" alt="Аватар" class="top-user-avatar">
                     <div class="top-user-info">
                         <div class="top-user-name">Какаши</div>
-                        <div class="top-user-stars">8000 ★</div>
+                        <div class="top-user-stars">28,450 ★</div>
                     </div>
                     <div class="top-user-position">4</div>
                 </div>
@@ -1021,100 +1493,16 @@
                     <img src="https://i.imgur.com/9KtQ9ZL.png" alt="Аватар" class="top-user-avatar">
                     <div class="top-user-info">
                         <div class="top-user-name">Итачи</div>
-                        <div class="top-user-stars">7500 ★</div>
+                        <div class="top-user-stars">25,800 ★</div>
                     </div>
                     <div class="top-user-position">5</div>
                 </div>
             </div>
-        </div>
+        </section>
         
-        <div class="sidebar-section">
-            <h3 class="sidebar-title">Онлайн открытия</h3>
-            <div class="online-openings" id="onlineOpenings">
-                <!-- Будет заполняться скриптом -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- Основной контент -->
-    <div class="container">
-        <h1 class="main-title">Аниме Кейсы</h1>
-        
-        <!-- Рекомендованные кейсы -->
-        <div class="cases-section" id="cases">
-            <h2 class="section-title"><i class="fas fa-fire"></i> Рекомендованные кейсы</h2>
-            <div class="cases-container">
-                <div class="case" data-price="1000" data-case="1">
-                    <img src="https://i.imgur.com/JQlE6iN.png" alt="Обычный кейс" class="case-image">
-                    <h3 class="case-name">Обычный кейс</h3>
-                    <div class="case-price">
-                        <span>1000</span>
-                        <span class="stars">★</span>
-                    </div>
-                    <button class="buy-btn stars">Открыть</button>
-                </div>
-                
-                <div class="case" data-price="2500" data-case="2">
-                    <img src="https://i.imgur.com/8mKbWqQ.png" alt="Редкий кейс" class="case-image">
-                    <h3 class="case-name">Редкий кейс</h3>
-                    <div class="case-price">
-                        <span>2500</span>
-                        <span class="stars">★</span>
-                    </div>
-                    <button class="buy-btn stars">Открыть</button>
-                </div>
-                
-                <div class="case" data-price="5000" data-case="3">
-                    <img src="https://i.imgur.com/vVX3GQz.png" alt="Эпический кейс" class="case-image">
-                    <h3 class="case-name">Эпический кейс</h3>
-                    <div class="case-price">
-                        <span>5000</span>
-                        <span class="stars">★</span>
-                    </div>
-                    <button class="buy-btn stars">Открыть</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Особые кейсы -->
-        <div class="cases-section">
-            <h2 class="section-title"><i class="fas fa-gem"></i> Особые кейсы</h2>
-            <div class="cases-container">
-                <div class="case" data-price="299" data-case="4">
-                    <img src="https://i.imgur.com/LjVqQ0W.png" alt="Легендарный кейс" class="case-image">
-                    <h3 class="case-name">Легендарный кейс</h3>
-                    <div class="case-price">
-                        <span>299</span>
-                        <span>₽</span>
-                    </div>
-                    <button class="buy-btn">Купить</button>
-                </div>
-                
-                <div class="case" data-price="499" data-case="5">
-                    <img src="https://i.imgur.com/2QzJzQa.png" alt="Эксклюзивный кейс" class="case-image">
-                    <h3 class="case-name">Эксклюзивный кейс</h3>
-                    <div class="case-price">
-                        <span>499</span>
-                        <span>₽</span>
-                    </div>
-                    <button class="buy-btn">Купить</button>
-                </div>
-                
-                <div class="case" data-price="999" data-case="6">
-                    <img src="https://i.imgur.com/3KtQ9ZL.png" alt="Премиум кейс" class="case-image">
-                    <h3 class="case-name">Премиум кейс</h3>
-                    <div class="case-price">
-                        <span>999</span>
-                        <span>₽</span>
-                    </div>
-                    <button class="buy-btn">Купить</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Лента видео -->
-        <div class="cases-section" id="videos">
-            <h2 class="section-title"><i class="fas fa-video"></i> Последние открытия</h2>
+        <!-- События -->
+        <section id="events" class="cases-section">
+            <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Текущие события</h2>
             <div class="videos-container">
                 <div class="video-card">
                     <div class="video-thumbnail">
@@ -1122,105 +1510,65 @@
                         <i class="fas fa-play video-play-icon"></i>
                     </div>
                     <div class="video-info">
-                        <div class="video-title">Легендарный Наруто из кейса!</div>
+                        <div class="video-title">Неделя Наруто</div>
                         <div class="video-user">
-                            <img src="https://i.imgur.com/5QzJzQa.png" alt="Аватар" class="video-user-avatar">
-                            <span>Наруто</span>
+                            <span>Удвоенный шанс на карты из Наруто</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="video-card">
                     <div class="video-thumbnail">
-                        <img src="https://i.imgur.com/8KtQ9ZL.png" alt="Превью" class="video-thumbnail">
+                        <img src="https://i.imgur.com/2QzJzQa.png" alt="Превью" class="video-thumbnail">
                         <i class="fas fa-play video-play-icon"></i>
                     </div>
                     <div class="video-info">
-                        <div class="video-title">Эпический Саске! Невероятно</div>
+                        <div class="video-title">Турнир коллекционеров</div>
                         <div class="video-user">
-                            <img src="https://i.imgur.com/8KtQ9ZL.png" alt="Аватар" class="video-user-avatar">
-                            <span>Саске</span>
+                            <span>Соберите набор карт для наград</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="video-card">
                     <div class="video-thumbnail">
-                        <img src="https://i.imgur.com/3qJQY9Q.png" alt="Превью" class="video-thumbnail">
+                        <img src="https://i.imgur.com/6KtQ9ZL.png" alt="Превью" class="video-thumbnail">
                         <i class="fas fa-play video-play-icon"></i>
                     </div>
                     <div class="video-info">
-                        <div class="video-title">Редкая Сакура, как вам?</div>
+                        <div class="video-title">Новые карты One Piece</div>
                         <div class="video-user">
-                            <img src="https://i.imgur.com/3qJQY9Q.png" alt="Аватар" class="video-user-avatar">
-                            <span>Сакура</span>
+                            <span>Добавлены персонажи Wano Arc</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="video-card">
                     <div class="video-thumbnail">
-                        <img src="https://i.imgur.com/7JQY9ZL.png" alt="Превью" class="video-thumbnail">
+                        <img src="https://i.imgur.com/9QzJzQa.png" alt="Превью" class="video-thumbnail">
                         <i class="fas fa-play video-play-icon"></i>
                     </div>
                     <div class="video-info">
-                        <div class="video-title">Какаши с Sharingan!</div>
+                        <div class="video-title">Бонус за вход</div>
                         <div class="video-user">
-                            <img src="https://i.imgur.com/7JQY9ZL.png" alt="Аватар" class="video-user-avatar">
-                            <span>Какаши</span>
+                            <span>Получайте 200 ★ ежедневно</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Заработок звезд -->
-        <div class="cases-section" id="earn">
-            <h2 class="section-title"><i class="fas fa-coins"></i> Заработать звезды</h2>
-            <div class="cases-container">
-                <div class="case">
-                    <img src="https://i.imgur.com/JQlE6iN.png" alt="Просмотр рекламы" class="case-image">
-                    <h3 class="case-name">Просмотр рекламы</h3>
-                    <div class="case-price">
-                        <span>50-100</span>
-                        <span class="stars">★</span>
-                    </div>
-                    <button class="buy-btn stars">Смотреть</button>
-                </div>
-                
-                <div class="case">
-                    <img src="https://i.imgur.com/8mKbWqQ.png" alt="Ежедневный бонус" class="case-image">
-                    <h3 class="case-name">Ежедневный бонус</h3>
-                    <div class="case-price">
-                        <span>100-500</span>
-                        <span class="stars">★</span>
-                    </div>
-                    <button class="buy-btn stars">Получить</button>
-                </div>
-                
-                <div class="case">
-                    <img src="https://i.imgur.com/vVX3GQz.png" alt="Пригласить друга" class="case-image">
-                    <h3 class="case-name">Пригласить друга</h3>
-                    <div class="case-price">
-                        <span>1000</span>
-                        <span class="stars">★</span>
-                    </div>
-                    <button class="buy-btn stars">Пригласить</button>
-                </div>
-            </div>
-        </div>
+        </section>
         
         <!-- Настройки -->
-        <div class="cases-section">
+        <section class="cases-section">
             <h2 class="section-title"><i class="fas fa-cog"></i> Настройки</h2>
             <div class="settings-section">
                 <div class="setting-option">
                     <label class="setting-label">Тема оформления</label>
                     <div class="theme-selector">
-                        <div class="theme-option theme-dark selected" data-theme="dark"></div>
-                        <div class="theme-option theme-purple" data-theme="purple"></div>
-                        <div class="theme-option theme-red" data-theme="red"></div>
-                        <div class="theme-option theme-blue" data-theme="blue"></div>
+                        <div class="theme-option theme-light selected" data-theme="light"></div>
+                        <div class="theme-option theme-genshin" data-theme="genshin"></div>
+                        <div class="theme-option theme-sakura" data-theme="sakura"></div>
+                        <div class="theme-option theme-dark" data-theme="dark"></div>
                     </div>
                 </div>
                 
@@ -1242,7 +1590,7 @@
                 
                 <button class="save-settings">Сохранить настройки</button>
             </div>
-        </div>
+        </section>
     </div>
     
     <!-- Колесо фортуны -->
@@ -1276,15 +1624,15 @@
     
     <!-- Модальное окно для видео -->
     <div class="wheel-container" id="videoModal">
-        <div style="background: linear-gradient(135deg, #1a1a2e, #0f3460); padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; position: relative;">
-            <button id="closeVideoModal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
+        <div style="background: var(--card-bg); padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; position: relative; border: 1px solid var(--border-color);">
+            <button id="closeVideoModal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--text-color); font-size: 1.5rem; cursor: pointer;">×</button>
             
             <h2 style="color: var(--primary-color); margin-bottom: 20px; text-align: center;">Записать видео с открытием</h2>
             
-            <div id="videoPreview" style="width: 100%; height: 300px; background-color: #000; margin-bottom: 20px; position: relative; display: flex; justify-content: center; align-items: center;">
+            <div id="videoPreview" style="width: 100%; height: 300px; background-color: #000; margin-bottom: 20px; position: relative; display: flex; justify-content: center; align-items: center; border-radius: 5px; overflow: hidden;">
                 <img id="videoCardImage" src="" alt="Карточка" style="max-width: 80%; max-height: 80%;">
-                <div id="videoRarityOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.3));"></div>
-                <div id="videoTextOverlay" style="position: absolute; bottom: 20px; left: 20px; color: white; font-size: 1.5rem; font-weight: bold;"></div>
+                <div id="videoRarityOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+                <div id="videoTextOverlay" style="position: absolute; bottom: 20px; left: 20px; color: white; font-size: 1.5rem; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5);"></div>
             </div>
             
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
@@ -1297,7 +1645,7 @@
             </div>
             
             <div style="display: flex; gap: 10px;">
-                <button id="publishVideo" style="flex: 1; padding: 10px; background: linear-gradient(135deg, var(--primary-color), #c2185b); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; display: none;">
+                <button id="publishVideo" style="flex: 1; padding: 10px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; display: none;">
                     <i class="fas fa-upload"></i> Опубликовать
                 </button>
                 <button id="cancelVideo" style="flex: 1; padding: 10px; background: linear-gradient(135deg, #6c757d, #495057); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">
@@ -1377,9 +1725,61 @@
                     { name: "Ами", image: "https://i.imgur.com/5QzJzQa.png", rarity: "epic", description: "Премиум карточка Ами" },
                     { name: "Макото", image: "https://i.imgur.com/6KtQ9ZL.png", rarity: "epic", description: "Премиум карточка Макото" }
                 ]
+            },
+            7: {
+                name: "Наруто кейс",
+                items: [
+                    { name: "Наруто (Режим Хвостатого)", image: "https://i.imgur.com/5QzJzQa.png", rarity: "legendary", description: "Наруто в режиме девятихвостого" },
+                    { name: "Саске (Режим Сярингана)", image: "https://i.imgur.com/8KtQ9ZL.png", rarity: "legendary", description: "Саске с вечным мангекью" },
+                    { name: "Какаши (Маска)", image: "https://i.imgur.com/7JQY9ZL.png", rarity: "epic", description: "Какаши без маски" },
+                    { name: "Джирайя", image: "https://i.imgur.com/9KtQ9ZL.png", rarity: "epic", description: "Легендарный Саннин" },
+                    { name: "Орочимару", image: "https://i.imgur.com/1QzJzQa.png", rarity: "epic", description: "Змеиный Саннин" },
+                    { name: "Цунаде", image: "https://i.imgur.com/2QzJzQa.png", rarity: "epic", description: "Годзайме Хокаге" }
+                ]
+            },
+            8: {
+                name: "Hunter x Hunter",
+                items: [
+                    { name: "Гон (Взрослый)", image: "https://i.imgur.com/2QzJzQa.png", rarity: "legendary", description: "Взрослая форма Гона" },
+                    { name: "Киллуа (Боги Скорости)", image: "https://i.imgur.com/3KtQ9ZL.png", rarity: "legendary", description: "Киллуа в максимальной скорости" },
+                    { name: "Хисока (Боевой режим)", image: "https://i.imgur.com/6QzJzQa.png", rarity: "epic", description: "Хисока готовый к битве" },
+                    { name: "Курапика (Цепь)", image: "https://i.imgur.com/4QzJzQa.png", rarity: "epic", description: "Курапика с цепью" },
+                    { name: "Меруэм (Король)", image: "https://i.imgur.com/8QzJzQa.png", rarity: "legendary", description: "Меруэм в полной силе" }
+                ]
+            },
+            9: {
+                name: "One Piece",
+                items: [
+                    { name: "Луффи (Гиар 5)", image: "https://i.imgur.com/6KtQ9ZL.png", rarity: "legendary", description: "Луффи в пятой передаче" },
+                    { name: "Зоро (Король Ада)", image: "https://i.imgur.com/7QzJzQa.png", rarity: "legendary", description: "Зоро с техникой Короля Ада" },
+                    { name: "Санджи (Диабл Джемб)", image: "https://i.imgur.com/8KtQ9ZL.png", rarity: "epic", description: "Санджи с горящей ногой" },
+                    { name: "Джимби (Рыба-человек)", image: "https://i.imgur.com/5QzJzQa.png", rarity: "epic", description: "Джимби в боевой стойке" },
+                    { name: "Шанкс", image: "https://i.imgur.com/9QzJzQa.png", rarity: "legendary", description: "Император моря Шанкс" }
+                ]
             }
         };
-        
+
+        // Коллекция пользователя
+        const userCollection = {
+            "common": [
+                { name: "Наруто", image: "https://i.imgur.com/5QzJzQa.png", count: 3 },
+                { name: "Саске", image: "https://i.imgur.com/8KtQ9ZL.png", count: 2 },
+                { name: "Сакура", image: "https://i.imgur.com/3qJQY9Q.png", count: 4 },
+                { name: "Какаши", image: "https://i.imgur.com/7JQY9ZL.png", count: 1 }
+            ],
+            "rare": [
+                { name: "Итачи", image: "https://i.imgur.com/9KtQ9ZL.png", count: 1 },
+                { name: "Гон", image: "https://i.imgur.com/2QzJzQa.png", count: 2 }
+            ],
+            "epic": [
+                { name: "Мадара", image: "https://i.imgur.com/1QzJzQa.png", count: 1 },
+                { name: "Хисока", image: "https://i.imgur.com/6QzJzQa.png", count: 1 }
+            ],
+            "legendary": [
+                { name: "Меруэм", image: "https://i.imgur.com/8QzJzQa.png", count: 1 }
+            ]
+        };
+
         // Элементы DOM
         const balanceElement = document.getElementById('balance');
         const userAvatar = document.getElementById('userAvatar');
@@ -1389,6 +1789,7 @@
         const starPacks = document.querySelectorAll('.star-pack');
         const buyStarsBtn = document.getElementById('buyStarsBtn');
         const onlineOpenings = document.getElementById('onlineOpenings');
+        const collectionContainer = document.getElementById('collectionContainer');
         const wheelContainer = document.getElementById('wheelContainer');
         const wheelItems = document.getElementById('wheelItems');
         const resultElement = document.getElementById('result');
@@ -1410,38 +1811,50 @@
         const videoRarityOverlay = document.getElementById('videoRarityOverlay');
         const videoTextOverlay = document.getElementById('videoTextOverlay');
         const themeOptions = document.querySelectorAll('.theme-option');
-        
-        let balance = parseInt(balanceElement.textContent);
+        const fortuneWheel = document.getElementById('fortuneWheel');
+        const spinFortuneWheel = document.getElementById('spinFortuneWheel');
+
+        let balance = parseInt(balanceElement.textContent.replace(/,/g, ''));
         let selectedStarPack = null;
         let currentCase = null;
         let currentItem = null;
-        
+        let canSpinFortuneWheel = true;
+
         // Текущий пользователь
         const currentUser = {
             name: "Анимешник",
             avatar: "https://i.imgur.com/JQlE6iN.png",
-            stars: balance
+            stars: balance,
+            level: 24,
+            exp: 780,
+            nextLevelExp: 1000
         };
-        
+
         // Инициализация
         function init() {
             // Заполняем онлайн открытия
             generateOnlineOpenings();
+            
+            // Заполняем коллекцию
+            displayUserCollection();
             
             // Обновляем аватар пользователя
             userAvatar.src = currentUser.avatar;
             
             // Настройки темы
             loadTheme();
+            
+            // Инициализация колеса удачи
+            initFortuneWheel();
         }
-        
+
         // Генерация онлайн открытий
         function generateOnlineOpenings() {
             const openings = [];
             
             // Генерируем 10 случайных открытий
             for (let i = 0; i < 10; i++) {
-                const caseId = Math.floor(Math.random() * 6) + 1;
+                const caseId = Math.floor(Math.random() * 9) + 1;
                 const caseData = casesData[caseId];
                 const item = getRandomItem(caseData.items);
                 
@@ -1458,7 +1871,7 @@
             // Отображаем открытия
             displayOpenings(openings);
         }
-        
+
         // Отображение онлайн открытий
         function displayOpenings(openings) {
             onlineOpenings.innerHTML = '';
@@ -1483,13 +1896,87 @@
                 onlineOpenings.appendChild(openingElement);
             });
         }
-        
+
+        // Отображение коллекции пользователя
+        function displayUserCollection() {
+            collectionContainer.innerHTML = '';
+            
+            // Добавляем легендарные карты
+            userCollection.legendary.forEach(item => {
+                const cardElement = createCollectionCard(item, 'legendary');
+                collectionContainer.appendChild(cardElement);
+            });
+            
+            // Добавляем эпические карты
+            userCollection.epic.forEach(item => {
+                const cardElement = createCollectionCard(item, 'epic');
+                collectionContainer.appendChild(cardElement);
+            });
+            
+            // Добавляем редкие карты
+            userCollection.rare.forEach(item => {
+                const cardElement = createCollectionCard(item, 'rare');
+                collectionContainer.appendChild(cardElement);
+            });
+            
+            // Добавляем обычные карты
+            userCollection.common.forEach(item => {
+                const cardElement = createCollectionCard(item, 'common');
+                collectionContainer.appendChild(cardElement);
+            });
+        }
+
+        // Создание карточки для коллекции
+        function createCollectionCard(item, rarity) {
+            const cardElement = document.createElement('div');
+            cardElement.className = `collection-card ${rarity}-card`;
+            
+            cardElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" class="collection-card-image">
+                <div class="collection-card-name">${item.name}</div>
+                <span class="collection-card-rarity ${rarity}">${getRarityName(rarity)}</span>
+                <div class="collection-card-count">x${item.count}</div>
+            `;
+            
+            return cardElement;
+        }
+
+        // Инициализация колеса удачи
+        function initFortuneWheel() {
+            const rewards = [50, 100, 150, 200, 250, 300, 400, 500];
+            const segmentAngle = 360 / rewards.length;
+            
+            // Создаем сегменты колеса
+            rewards.forEach((reward, index) => {
+                const segment = document.createElement('div');
+                segment.style.position = 'absolute';
+                segment.style.width = '100%';
+                segment.style.height = '100%';
+                segment.style.clipPath = `polygon(50% 50%, ${50 + 50 * Math.cos((index * segmentAngle - 90) * Math.PI / 180)}% ${50 + 50 * Math.sin((index * segmentAngle - 90) * Math.PI / 180)}%, ${50 + 50 * Math.cos(((index + 1) * segmentAngle - 90) * Math.PI / 180)}% ${50 + 50 * Math.sin(((index + 1) * segmentAngle - 90) * Math.PI / 180)}%)`;
+                segment.style.background = index % 2 === 0 ? '#ff7676' : '#f54ea2';
+                
+                const rewardText = document.createElement('div');
+                rewardText.textContent = `${reward} ★`;
+                rewardText.style.position = 'absolute';
+                rewardText.style.color = 'white';
+                rewardText.style.fontWeight = 'bold';
+                rewardText.style.textShadow = '0 0 3px rgba(0,0,0,0.5)';
+                rewardText.style.top = '15%';
+                rewardText.style.left = '50%';
+                rewardText.style.transform = `translateX(-50%) rotate(${index * segmentAngle + segmentAngle / 2}deg)`;
+                rewardText.style.transformOrigin = 'bottom center';
+                
+                segment.appendChild(rewardText);
+                fortuneWheel.appendChild(segment);
+            });
+        }
+
         // Получение случайного имени
         function getRandomName() {
             const names = ["Наруто", "Саске", "Сакура", "Какаши", "Итачи", "Гон", "Киллуа", "Эрен", "Микаса", "Ливай", "Луффи", "Зоро"];
             return names[Math.floor(Math.random() * names.length)];
         }
-        
+
         // Получение случайного аватара
         function getRandomAvatar() {
             const avatars = [
@@ -1507,12 +1994,12 @@
             ];
             return avatars[Math.floor(Math.random() * avatars.length)];
         }
-        
+
         // Обработчики событий для кейсов
         caseElements.forEach(caseElement => {
             caseElement.addEventListener('click', function() {
                 const caseId = this.getAttribute('data-case');
-                const casePrice = parseInt(this.getAttribute('data-price'));
+                const casePrice = parseInt(this.getAttribute('data-price').replace(/,/g, ''));
                 const isRealMoney = this.querySelector('.buy-btn').textContent === "Купить";
                 
                 if (isRealMoney) {
@@ -1529,7 +2016,7 @@
                 }
             });
         });
-        
+
         // Функция открытия кейса
         function openCase(caseId, casePrice) {
             const caseData = casesData[caseId];
@@ -1542,15 +2029,20 @@
             
             // Вычитаем стоимость кейса из баланса
             balance -= casePrice;
-            balanceElement.textContent = balance;
-            currentUser.stars = balance;
+            updateBalance();
             
             // Через небольшую задержку запускаем колесо
             setTimeout(() => {
                 spinWheel(caseData.items);
             }, 500);
         }
-        
+
+        // Обновление баланса
+        function updateBalance() {
+            currentUser.stars = balance;
+            balanceElement.textContent = balance.toLocaleString();
+        }
+
         // Создание колеса фортуны
         function createWheel(items) {
             wheelItems.innerHTML = '';
@@ -1573,7 +2065,7 @@
             // Устанавливаем начальную позицию
             wheelItems.style.transform = 'translateY(0)';
         }
-        
+
         // Вращение колеса
         function spinWheel(items) {
             // Случайный предмет из кейса (с учетом редкости)
@@ -1590,9 +2082,69 @@
             // После завершения анимации показываем результат
             setTimeout(() => {
                 showResult(currentItem);
+                addCardToCollection(currentItem);
             }, 4000);
         }
-        
+
+        // Добавление карты в коллекцию
+        function addCardToCollection(item) {
+            const rarity = item.rarity;
+            const collection = userCollection[rarity];
+            const existingCard = collection.find(card => card.name === item.name);
+            
+            if (existingCard) {
+                existingCard.count++;
+            } else {
+                collection.push({
+                    name: item.name,
+                    image: item.image,
+                    count: 1
+                });
+            }
+            
+            // Обновляем отображение коллекции
+            displayUserCollection();
+            
+            // Добавляем опыт за получение карты
+            addExperience(getExpForRarity(rarity));
+        }
+
+        // Получение опыта за редкость карты
+        function getExpForRarity(rarity) {
+            switch (rarity) {
+                case 'common': return 10;
+                case 'rare': return 25;
+                case 'epic': return 50;
+                case 'legendary': return 100;
+                default: return 10;
+            }
+        }
+
+        // Добавление опыта
+        function addExperience(exp) {
+            currentUser.exp += exp;
+            
+            // Проверка на повышение уровня
+            if (currentUser.exp >= currentUser.nextLevelExp) {
+                currentUser.level++;
+                currentUser.exp -= currentUser.nextLevelExp;
+                currentUser.nextLevelExp = Math.floor(currentUser.nextLevelExp * 1.2);
+                
+                alert(`Поздравляем! Вы достигли уровня ${currentUser.level}!`);
+            }
+            
+            // Обновляем отображение прогресса
+            updateLevelProgress();
+        }
+
+        // Обновление прогресса уровня
+        function updateLevelProgress() {
+            const progressPercent = (currentUser.exp / currentUser.nextLevelExp) * 100;
+            document.querySelector('.level-progress').style.width = `${progressPercent}%`;
+            document.querySelector('.current-level').textContent = `Уровень ${currentUser.level}`;
+            document.querySelector('.exp').textContent = `${currentUser.exp}/${currentUser.nextLevelExp} XP`;
+        }
+
         // Выбор случайного предмета с учетом редкости
         function getRandomItem(items) {
             // Веса для разных редкостей
@@ -1616,7 +2168,7 @@
             const randomIndex = Math.floor(Math.random() * weightedItems.length);
             return weightedItems[randomIndex];
         }
-        
+
         // Показ результата
         function showResult(item) {
             resultImage.src = item.image;
@@ -1631,7 +2183,7 @@
             // Добавляем открытие в онлайн ленту
             addNewOpening(item);
         }
-        
+
         // Добавление нового открытия в онлайн ленту
         function addNewOpening(item) {
             const openingElement = document.createElement('div');
@@ -1657,7 +2209,7 @@
                 onlineOpenings.removeChild(onlineOpenings.lastChild);
             }
         }
-        
+
         // Получение названия редкости
         function getRarityName(rarity) {
             const names = {
@@ -1668,13 +2220,13 @@
             };
             return names[rarity] || rarity;
         }
-        
+
         // Закрытие колеса
         closeWheelBtn.addEventListener('click', function() {
             wheelContainer.classList.remove('active');
             resultElement.classList.remove('active');
         });
-        
+
         // Промокоды
         applyPromoBtn.addEventListener('click', function() {
             const promoCode = promoCodeInput.value.trim();
@@ -1703,13 +2255,12 @@
             }
             
             balance += starsToAdd;
-            balanceElement.textContent = balance;
-            currentUser.stars = balance;
+            updateBalance();
             
             alert(`Промокод применен! Вы получили ${starsToAdd} звезд!`);
             promoCodeInput.value = "";
         });
-        
+
         // Выбор пакета звезд
         starPacks.forEach(pack => {
             pack.addEventListener('click', function() {
@@ -1721,7 +2272,7 @@
                 };
             });
         });
-        
+
         // Покупка звезд
         buyStarsBtn.addEventListener('click', function() {
             if (!selectedStarPack) {
@@ -1733,24 +2284,23 @@
             alert(`Вы купили ${selectedStarPack.stars} звезд за ${selectedStarPack.price} ₽`);
             
             balance += selectedStarPack.stars;
-            balanceElement.textContent = balance;
-            currentUser.stars = balance;
+            updateBalance();
             
             // Сброс выбора
             starPacks.forEach(p => p.classList.remove('selected'));
             selectedStarPack = null;
         });
-        
+
         // Поделиться карточкой
         shareBtn.addEventListener('click', function() {
             if (!currentItem) return;
             
-            const shareText = `Я получил(а) ${currentItem.name} (${getRarityName(currentItem.rarity)}) в AnimeCases!`;
-            const shareUrl = `https://animecases.example.com/share?item=${encodeURIComponent(currentItem.name)}`;
+            const shareText = `Я получил(а) ${currentItem.name} (${getRarityName(currentItem.rarity)}) в Anime Gacha!`;
+            const shareUrl = `https://animegacha.example.com/share?item=${encodeURIComponent(currentItem.name)}`;
             
             if (navigator.share) {
                 navigator.share({
-                    title: 'AnimeCases',
+                    title: 'Anime Gacha',
                     text: shareText,
                     url: shareUrl
                 }).catch(err => {
@@ -1761,7 +2311,7 @@
                 copyToClipboard(shareUrl, shareText);
             }
         });
-        
+
         // Копирование в буфер обмена
         function copyToClipboard(url, text) {
             const textarea = document.createElement('textarea');
@@ -1773,7 +2323,7 @@
             
             alert('Ссылка скопирована в буфер обмена!\n' + text + '\n' + url);
         }
-        
+
         // Запись видео
         videoBtn.addEventListener('click', function() {
             if (!currentItem) return;
@@ -1806,7 +2356,7 @@
             // Показываем модальное окно
             videoModal.classList.add('active');
         });
-        
+
         // Управление видео
         startRecording.addEventListener('click', function() {
             startRecording.style.display = 'none';
@@ -1818,7 +2368,7 @@
                 stopRecording.click();
             }, 3000);
         });
-        
+
         stopRecording.addEventListener('click', function() {
             startRecording.style.display = 'none';
             stopRecording.style.display = 'none';
@@ -1827,28 +2377,68 @@
             // Имитация завершения записи
             alert('Запись завершена! Теперь вы можете опубликовать видео.');
         });
-        
+
         publishVideo.addEventListener('click', function() {
             alert('Видео опубликовано! Оно появится в вашем профиле и в ленте рекомендаций.');
             videoModal.classList.remove('active');
         });
-        
+
         cancelVideo.addEventListener('click', function() {
             videoModal.classList.remove('active');
         });
-        
+
         closeVideoModal.addEventListener('click', function() {
             videoModal.classList.remove('active');
         });
-        
+
+        // Вращение колеса удачи
+        spinFortuneWheel.addEventListener('click', function() {
+            if (!canSpinFortuneWheel) return;
+            
+            if (balance < 50) {
+                alert('Недостаточно звезд для вращения колеса!');
+                return;
+            }
+            
+            balance -= 50;
+            updateBalance();
+            
+            canSpinFortuneWheel = false;
+            spinFortuneWheel.disabled = true;
+            
+            // Случайный угол вращения (от 3 до 5 полных оборотов плюс сегмент)
+            const rewards = [50, 100, 150, 200, 250, 300, 400, 500];
+            const segmentAngle = 360 / rewards.length;
+            const winningSegment = Math.floor(Math.random() * rewards.length);
+            const spinDegrees = 1080 + (winningSegment * segmentAngle) + (Math.random() * segmentAngle);
+            
+            fortuneWheel.style.transform = `rotate(${spinDegrees}deg)`;
+            fortuneWheel.style.transition = 'transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+            
+            // После завершения вращения
+            setTimeout(() => {
+                const reward = rewards[winningSegment];
+                alert(`Поздравляем! Вы выиграли ${reward} звезд!`);
+                
+                balance += reward;
+                updateBalance();
+                
+                // Можно крутить снова через 24 часа
+                setTimeout(() => {
+                    canSpinFortuneWheel = true;
+                    spinFortuneWheel.disabled = false;
+                }, 24 * 60 * 60 * 1000); // 24 часа в миллисекундах
+            }, 3000);
+        });
+
         // Управление боковой панелью
         userAvatar.addEventListener('click', function() {
             sidebar.classList.toggle('active');
         });
-        
+
         // Настройки темы
         function loadTheme() {
-            const savedTheme = localStorage.getItem('animeCasesTheme') || 'dark';
+            const savedTheme = localStorage.getItem('animeGachaTheme') || 'light';
             setTheme(savedTheme);
             
             // Отмечаем выбранную тему
@@ -1860,12 +2450,54 @@
                 }
             });
         }
-        
+
         function setTheme(theme) {
             document.body.className = theme;
-            localStorage.setItem('animeCasesTheme', theme);
+            localStorage.setItem('animeGachaTheme', theme);
+            
+            // Обновляем CSS переменные в зависимости от темы
+            const root = document.documentElement;
+            
+            switch (theme) {
+                case 'light':
+                    root.style.setProperty('--primary-color', '#3a7ca5');
+                    root.style.setProperty('--secondary-color', '#2f6690');
+                    root.style.setProperty('--accent-color', '#d9dcd6');
+                    root.style.setProperty('--text-color', '#16425b');
+                    root.style.setProperty('--background', '#f8f9fa');
+                    root.style.setProperty('--card-bg', '#ffffff');
+                    root.style.setProperty('--border-color', '#d3d3d3');
+                    break;
+                case 'genshin':
+                    root.style.setProperty('--primary-color', '#3a7ca5');
+                    root.style.setProperty('--secondary-color', '#2f6690');
+                    root.style.setProperty('--accent-color', '#e8f4f8');
+                    root.style.setProperty('--text-color', '#16425b');
+                    root.style.setProperty('--background', '#f0f8ff');
+                    root.style.setProperty('--card-bg', '#ffffff');
+                    root.style.setProperty('--border-color', '#c1e4f6');
+                    break;
+                case 'sakura':
+                    root.style.setProperty('--primary-color', '#e83e8c');
+                    root.style.setProperty('--secondary-color', '#d63384');
+                    root.style.setProperty('--accent-color', '#fff0f6');
+                    root.style.setProperty('--text-color', '#6d1b3d');
+                    root.style.setProperty('--background', '#fff9fb');
+                    root.style.setProperty('--card-bg', '#ffffff');
+                    root.style.setProperty('--border-color', '#ffdeeb');
+                    break;
+                case 'dark':
+                    root.style.setProperty('--primary-color', '#6f42c1');
+                    root.style.setProperty('--secondary-color', '#5a32a3');
+                    root.style.setProperty('--accent-color', '#343a40');
+                    root.style.setProperty('--text-color', '#f8f9fa');
+                    root.style.setProperty('--background', '#212529');
+                    root.style.setProperty('--card-bg', '#2c3034');
+                    root.style.setProperty('--border-color', '#495057');
+                    break;
+            }
         }
-        
+
         themeOptions.forEach(option => {
             option.addEventListener('click', function() {
                 const theme = this.getAttribute('data-theme');
@@ -1875,7 +2507,7 @@
                 this.classList.add('selected');
             });
         });
-        
+
         // Инициализация при загрузке
         window.addEventListener('load', init);
     </script>
